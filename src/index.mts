@@ -20,7 +20,7 @@ interface State {
 const LFM_ROOT_EVENT_ID = '1684158';
 const LFM_EVENT_ID = '6063433';
 const DISCORD_MENTION_ROLE = '1383110606353338459';
-const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1383108216186994698/d3kJXBa3aCe7MHMnCY0VleTdNCXGWgLfxUodcNYZqnR4FYN-3XyjYrMVStfVozvn48CV?wait=true';
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_URL;
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 
 // Reader, I fought this website for a long time, pleading for it to work with fetch, or axios but for whatever reason
