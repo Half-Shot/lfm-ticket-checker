@@ -16,6 +16,7 @@ interface State {
   }>
 }
 
+// These two need resetting for the next event. When that happens we can fetch these programatically next time.
 const LFM_ROOT_EVENT_ID = '1684158';
 const LFM_EVENT_ID = '6063433';
 const DISCORD_MENTION_ROLE = '1383110606353338459';
@@ -23,9 +24,10 @@ const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/138310821618699469
 const CHECK_INTERVAL_MS = 60 * 60 * 1000;
 
 // Reader, I fought this website for a long time, pleading for it to work with fetch, or axios but for whatever reason
-// it would hit the captcha check. Because life is short, this uses curl.
+// it would hit the captcha check. Because life is short, this uses curlie.
 // I also don't know what chk/1041 is..
-const cmd = `curl 'https://www.tickettailor.com/checkout/view-event/id/${LFM_EVENT_ID}/chk/1041/?modal_widget=true^&widget=true'
+// Extra: For some reason curlie (https://github.com/rs/curlie) works but curl does not.
+const cmd = `curlie 'https://www.tickettailor.com/checkout/view-event/id/${LFM_EVENT_ID}/chk/1041/?modal_widget=true^&widget=true'
   --compressed
   -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:139.0) Gecko/20100101 Firefox/139.0'
   -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
@@ -66,7 +68,7 @@ async function loadState(): Promise<State> {
 
 
 async function fetchEventState(exisingState: State): Promise<State> {
-  console.log(cmd);
+  // We use bash, for much the same reasons that I can be lazy about parsing out the details.
   const res = spawnSync('/usr/bin/bash', ['-c', cmd]);
   const html = res.stdout.toString();
   try {
@@ -85,7 +87,7 @@ async function fetchEventState(exisingState: State): Promise<State> {
     const state: State = {
       releaseDate: new Date(Date.now() + secondsUntilRelease*1000),
       meetDate: new Date(`${meetDateRes[1]} ${meetDateRes[2]} ${meetDateRes[3]} ${meetDateRes[4]} 12:00`),
-      soldOut: false,
+      soldOut: false, // This is NOT implemented as I have no idea what sold out looks like.
       announcements: exisingState.announcements,
       lastCheck: Date.now(),
     };
