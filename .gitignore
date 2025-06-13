@@ -11,3 +11,7 @@
 
 #!.yarn/cache
 .pnp.*
+lib/
+.env
+state.json
+node_modules/
