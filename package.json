@@ -1,6 +1,7 @@
 {
   "name": "lfm-ticket-checker",
   "packageManager": "yarn@4.5.2",
+  "license": "MIT",
   "dependencies": {
     "@tsconfig/node24": "^24.0.1",
     "typescript": "^5.8.3"
